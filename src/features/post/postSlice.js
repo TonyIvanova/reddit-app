@@ -4,8 +4,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchPostAsync = createAsyncThunk(
   "post/fetchPost",
-  async () => {
-    const response = await fetch('https://www.reddit.com/r/AskReddit/comments/qae4lg/whats_that_one_disgusting_thing_that_everybody.json');
+  async (permalink) => {
+    const response = await fetch(`https://www.reddit.com/${permalink}.json`);
+    
     const post = await response.json(); 
     return post; 
   }
@@ -14,6 +15,7 @@ export const fetchPostAsync = createAsyncThunk(
 export const postSlice = createSlice({
     name: 'post',
     initialState: {
+        permalink: 'r/Damnthatsinteresting/comments/qe0ng3/tactical_backpack_demonstration/',
         postData: [],
         status: 'idle'
     },
