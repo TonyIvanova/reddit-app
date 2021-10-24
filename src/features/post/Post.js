@@ -18,7 +18,7 @@ export function Post() {
   if (status === "loading") {
     return <>loading...</>;
   } else if (status === "succeeded") {
-    let { subreddit, title, ups, author_fullname, created } =
+    let { subreddit, title, ups, author_fullname, created, post_hint } =
       postData[0].data.children[0].data;
     let video;
 
@@ -31,7 +31,10 @@ export function Post() {
     }
     
     let image = postData[0].data.children[0].data.preview != null ? postData[0].data.children[0].data.preview.images : null; 
-    
+    let embededVideo;
+    try{embededVideo = postData[0].data.children[0].data.secure_media_embed.media_domain_url;}
+    catch{embededVideo = null}
+
     const timeCreated = convertTime(created); 
 
     return (
@@ -41,8 +44,8 @@ export function Post() {
         <p>ups {ups}</p>
         <p>Author {author_fullname}</p>
         <p>Created {timeCreated}</p>
-        {image && <img src={image} alt='thumbnail' onerror="this.style.display='none'"/>} 
-         {/* BUG image displaying when gets an error on server. Need FIX  */}
+        {post_hint==='image' && <img src={image} alt='thumbnail' onerror="this.style.display='none'"/>} 
+        {post_hint==='rich:video' && embededVideo && <iframe src={embededVideo} alt='video' title={title} frameborder="0" allow="autoplay"/>}
         {video && <iframe src={video} alt='video' title='uniquetitle' frameborder="0" allow="autoplay"/>}
       </>
     );
@@ -52,7 +55,7 @@ export function Post() {
 
   return (
     <div className="post">
-      <h1>something went wrong </h1>
+      <h1>something went really wrong </h1>
     </div>
   );
 }
