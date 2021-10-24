@@ -26,7 +26,7 @@ export function Subreddit() {
     return (
       <>
         {subredditPosts.map((post, index) => {
-          let {title, subreddit, ups, author_fullname, created, url_overridden_by_dest, post_hint} = post.data;
+          let {title, subreddit, ups, author_fullname, created, url_overridden_by_dest, post_hint, selftext} = post.data;
           let embededVideo;
           try{embededVideo = post.data.secure_media_embed.media_domain_url;}
           catch{embededVideo = null}
@@ -42,9 +42,10 @@ export function Subreddit() {
         //    
           return (
             <>
-              <h1>{title}</h1>
+              
               <p> subreddit: {subreddit} </p>
               <p>title: {title}</p>
+              <p>{selftext}</p>
               <p>ups {ups}</p>
               <p>Author {author_fullname}</p>
               <p>Created {timeCreated} </p>

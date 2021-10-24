@@ -18,7 +18,7 @@ export function Post() {
   if (status === "loading") {
     return <>loading...</>;
   } else if (status === "succeeded") {
-    let { subreddit, title, ups, author_fullname, created, post_hint } =
+    let { subreddit, title, ups, author_fullname, created, post_hint, selftext } =
       postData[0].data.children[0].data;
     let video;
 
@@ -41,6 +41,7 @@ export function Post() {
       <>
         <p> subreddit: {subreddit} </p>
         <p>title: {title}</p>
+        <p>{selftext}</p>
         <p>ups {ups}</p>
         <p>Author {author_fullname}</p>
         <p>Created {timeCreated}</p>
