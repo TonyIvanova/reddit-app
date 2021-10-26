@@ -1,4 +1,4 @@
-// used only for reference
+// used only for reference and planing 
 
 const state = {
   post: {
