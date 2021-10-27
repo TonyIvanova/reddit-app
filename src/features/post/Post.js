@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { fetchPostAsync } from "./postSlice";
 import { store } from "../../app/store";
 import { convertTime } from "../../helperFunctions";
+// styling
+import { Card, Container, Row, Col, Stack } from "react-bootstrap";
 
 export function Post() {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ export function Post() {
       created,
       post_hint,
       selftext,
+      url_overridden_by_dest
     } = postData[0].data.children[0].data;
     let video;
 
@@ -56,61 +59,87 @@ export function Post() {
 
     return (
       <>
-        <p> subreddit: {subreddit} </p>
-        <p>title: {title}</p>
-        <p>{selftext}</p>
-        <p>ups {ups}</p>
-        <p>Author {author_fullname}</p>
-        <p>Created {timeCreated}</p>
-        {post_hint === "image" && (
-          <img
-            src={image}
-            alt="thumbnail"
-            onerror="this.style.display='none'"
-          />
-        )}
-        {post_hint === "rich:video" && embededVideo && (
-          <iframe
-            src={embededVideo}
-            alt="video"
-            title={title}
-            frameborder="0"
-            allow="autoplay"
-          />
-        )}
-        {video && (
-          <iframe
-            src={video}
-            alt="video"
-            title="uniquetitle"
-            frameborder="0"
-            allow="autoplay"
-          />
-        )}
+        <Container className='pt-2'>
+          <Row>
+            <Card className="mx-auto px-0  w-75">
+              <Card.Header >
+                <Container >
+                  <Row>
+                    <h2> {title} </h2>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="text-muted"> r\{subreddit} </p>
+                    </Col>
 
-        <h2>Comments </h2>
-        {commentsData.map((comment) => {
-          let replies;
-          try {
-            replies = comment.data.replies.data.children[0];
-          } catch {
-            replies = null;
-          }
+                    <Col>
+                      <p className="text-muted">by {author_fullname}</p>
+                    </Col>
+                  </Row>
+                </Container>
+              </Card.Header>
+              <Card.Body className="p-3">
+                <p>{selftext}</p>
+                <p className="card-text">ups {ups}</p>
 
-          return (
-            <>
-              <p> {comment.data.author} </p>
-              <p> {comment.data.body} </p>
-              <p> {convertTime(comment.data.created)} </p>
-              <h2>replies</h2>
-         
-              <p> {replies && replies.data.author} </p>
-              <p> {replies && replies.data.body} </p>
-              <p> {replies && convertTime(replies.data.created)} </p>
-              <h2>______</h2>
-            </>
-          );
-        })}
+                {post_hint === "image" && (
+                  <img
+                    src={url_overridden_by_dest}
+                    alt="thumbnail"
+                    
+                    className="w-75 mx-auto"
+                  />
+                )}
+                {post_hint === "rich:video" && embededVideo && (
+                  <iframe
+                    src={embededVideo}
+                    alt="video"
+                    title={title}
+                    frameborder="0"
+                    allow="autoplay"
+                    className="w-75 mx-5"
+                  />
+                )}
+                {video && (
+                  <iframe
+                    src={video}
+                    alt="video"
+                    title="uniquetitle"
+                    frameborder="0"
+                    allow="autoplay"
+                    className="mx-auto" // Help! I don't know how to center it horizontaly. Margin doesn't work idk why.
+                    style={{height:' 450px'}}
+                  />
+                )}
+                <p>{timeCreated}</p>
+              </Card.Body>
+            </Card>
+          </Row>
+
+          <h2>Comments </h2>
+          {commentsData.map((comment) => {
+            let replies;
+            try {
+              replies = comment.data.replies.data.children[0];
+            } catch {
+              replies = null;
+            }
+
+            return (
+              <>
+                <p> {comment.data.author} </p>
+                <p> {comment.data.body} </p>
+                <p> {convertTime(comment.data.created)} </p>
+                <h2>replies</h2>
+
+                <p> {replies && replies.data.author} </p>
+                <p> {replies && replies.data.body} </p>
+                <p> {replies && convertTime(replies.data.created)} </p>
+                <h2>______</h2>
+              </>
+            );
+          })}
+        </Container>
       </>
     );
   } else if (status === "failed") {

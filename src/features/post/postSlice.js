@@ -15,7 +15,7 @@ export const fetchPostAsync = createAsyncThunk(
 export const postSlice = createSlice({
     name: 'post',
     initialState: {
-        permalink: 'r/Damnthatsinteresting/comments/qe0ng3/tactical_backpack_demonstration/',
+        permalink: 'r/PewdiepieSubmissions/comments/qgs6rt/ofcourse_im_the_sigma/',
         postData: [],
         status: 'idle'
     },
