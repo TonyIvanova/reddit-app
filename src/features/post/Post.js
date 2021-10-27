@@ -126,7 +126,7 @@ export function Post() {
             </Card.Body>
               </Card>
 
-          <h2>Comments </h2>
+          <h2 className='pt-5 pb-3'>Comments </h2>
           {commentsData.map((comment) => {
             let replies;
             try {
@@ -137,7 +137,7 @@ export function Post() {
 
             return (
               <>
-                <Card className='my-1 border-right-0  border-left-0'>
+                <Card className='my-1'>
                   <Card.Body>
                     <p className=" small"  style={{ display: "inline-block" }}> {comment.data.author}&#160;·&#160;</p><p className=" small text-muted "  style={{ display: "inline-block" }}> {convertTime(comment.data.created)} </p>
                     <p> {comment.data.body} </p>
