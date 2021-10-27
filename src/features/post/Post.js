@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchPostAsync } from "./postSlice";
 import { store } from "../../app/store";
-import { convertTime } from "../../helperFunctions";
+import { convertTime, upsconverter } from "../../helperFunctions";
 // styling
 import { Card, Container, Row, Col, Stack } from "react-bootstrap";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 export function Post() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export function Post() {
       created,
       post_hint,
       selftext,
-      url_overridden_by_dest
+      url_overridden_by_dest,
     } = postData[0].data.children[0].data;
     let video;
 
@@ -41,10 +42,6 @@ export function Post() {
       video = null;
     }
 
-    let image =
-      postData[0].data.children[0].data.preview != null
-        ? postData[0].data.children[0].data.preview.images
-        : null;
     let embededVideo;
     try {
       embededVideo =
@@ -59,62 +56,75 @@ export function Post() {
 
     return (
       <>
-        <Container className='pt-2'>
+        <Container className="container-xs py-3" style={{ maxWidth: "600px" }}>
           <Row>
-            <Card className="mx-auto px-0  w-75">
-              <Card.Header >
-                <Container >
-                  <Row>
-                    <h2> {title} </h2>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <p className="text-muted"> r\{subreddit} </p>
-                    </Col>
+            <Col className="col-2 text-center ">
+              <FaChevronUp style={{ color: "blue" }} />
+              <h2>{upsconverter(ups)}</h2>
+              <FaChevronDown style={{ color: "blue" }} />
+            </Col>
 
-                    <Col>
-                      <p className="text-muted">by {author_fullname}</p>
-                    </Col>
-                  </Row>
-                </Container>
-              </Card.Header>
-              <Card.Body className="p-3">
-                <p>{selftext}</p>
-                <p className="card-text">ups {ups}</p>
+            <Col className="col-10">
+              <Card className=" p-0 m-0">
+                <Card.Header>
+                  <Container>
+                    <Row className="justify-content-start">
+                      <Col>
+                        <p
+                          className=" small "
+                          style={{ display: "inline-block" }}
+                        >
+                          {" "}
+                          r\{subreddit}&#160;·&#160;
+                        </p>
 
-                {post_hint === "image" && (
-                  <img
-                    src={url_overridden_by_dest}
-                    alt="thumbnail"
-                    
-                    className="w-75 mx-auto"
-                  />
-                )}
-                {post_hint === "rich:video" && embededVideo && (
-                  <iframe
-                    src={embededVideo}
-                    alt="video"
-                    title={title}
-                    frameborder="0"
-                    allow="autoplay"
-                    className="w-75 mx-5"
-                  />
-                )}
-                {video && (
-                  <iframe
-                    src={video}
-                    alt="video"
-                    title="uniquetitle"
-                    frameborder="0"
-                    allow="autoplay"
-                    className="mx-auto" // Help! I don't know how to center it horizontaly. Margin doesn't work idk why.
-                    style={{height:' 450px'}}
-                  />
-                )}
-                <p>{timeCreated}</p>
-              </Card.Body>
-            </Card>
-          </Row>
+                        <p
+                          className="text-muted small "
+                          style={{ display: "inline-block" }}
+                        >
+                          by {author_fullname} {timeCreated}
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <h4> {title} </h4>
+                    </Row>
+                  </Container>
+                </Card.Header>
+                <Card.Body className="p-3 text-center">
+                  <p>{selftext}</p>
+
+                  {post_hint === "image" && (
+                    <img
+                      src={url_overridden_by_dest}
+                      alt="thumbnail"
+                      style={{ height: "auto", width: "100%" }}
+                      className=""
+                    />
+                  )}
+                  {post_hint === "rich:video" && embededVideo && (
+                    <iframe
+                      src={embededVideo}
+                      alt="video"
+                      title={title}
+                      frameborder="0"
+                      allow="autoplay"
+                      className="w-75 "
+                    />
+                  )}
+                  {video && (
+                    <iframe
+                      src={video}
+                      alt="video"
+                      title="uniquetitle"
+                      frameborder="0"
+                      allow="autoplay"
+                      className="w-75" // Help! I don't know how to center it horizontaly. Margin doesn't work idk why.
+                      style={{ height: " 450px" }}
+                    />
+                  )}
+            </Card.Body>
+              </Card>
 
           <h2>Comments </h2>
           {commentsData.map((comment) => {
@@ -127,18 +137,25 @@ export function Post() {
 
             return (
               <>
-                <p> {comment.data.author} </p>
-                <p> {comment.data.body} </p>
-                <p> {convertTime(comment.data.created)} </p>
-                <h2>replies</h2>
+                <Card className='my-1 border-right-0  border-left-0'>
+                  <Card.Body>
+                    <p className=" small"  style={{ display: "inline-block" }}> {comment.data.author}&#160;·&#160;</p><p className=" small text-muted "  style={{ display: "inline-block" }}> {convertTime(comment.data.created)} </p>
+                    <p> {comment.data.body} </p>
+                    
 
-                <p> {replies && replies.data.author} </p>
-                <p> {replies && replies.data.body} </p>
-                <p> {replies && convertTime(replies.data.created)} </p>
-                <h2>______</h2>
+                    
+                      {/* <p> {replies && replies.data.author} </p>
+                      <p> {replies && replies.data.body} </p>
+                      <p> {replies && convertTime(replies.data.created)} </p>
+                     */}
+                  </Card.Body>
+                </Card>
               </>
             );
           })}
+              
+            </Col>
+          </Row>
         </Container>
       </>
     );
