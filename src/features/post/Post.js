@@ -5,7 +5,7 @@ import { fetchPostAsync } from "./postSlice";
 import { store } from "../../app/store";
 import { convertTime, upsconverter } from "../../helperFunctions";
 // styling
-import { Card, Container, Row, Col, Stack } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 export function Post() {
