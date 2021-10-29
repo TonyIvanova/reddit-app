@@ -5,8 +5,9 @@ import { fetchPostAsync } from "./postSlice";
 import { store } from "../../app/store";
 import { convertTime, upsconverter } from "../../helperFunctions";
 // styling
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Placeholder } from "react-bootstrap";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import {PostLoading} from './PostLoading'; 
 
 export function Post() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export function Post() {
   }, [permalink, dispatch]);
 
   if (status === "loading") {
-    return <>loading...</>;
+    return <><PostLoading /></>;
   } else if (status === "succeeded") {
     let {
       subreddit,
@@ -66,7 +67,7 @@ export function Post() {
 
             <Col className="col-10">
               <Card className=" p-0 m-0">
-                <Card.Header>
+                <Card.Header className='post-header'>
                   <Container>
                     <Row className="justify-content-start">
                       <Col>
@@ -77,7 +78,8 @@ export function Post() {
                           {" "}
                           r\{subreddit}&#160;·&#160;
                         </p>
-
+                        
+    
                         <p
                           className="text-muted small "
                           style={{ display: "inline-block" }}
@@ -88,6 +90,7 @@ export function Post() {
                     </Row>
                     <Row>
                       <h4> {title} </h4>
+                      
                     </Row>
                   </Container>
                 </Card.Header>
@@ -137,7 +140,7 @@ export function Post() {
 
             return (
               <>
-                <Card className='my-1'>
+                <Card className='my-1 border-0 '>
                   <Card.Body>
                     <p className=" small"  style={{ display: "inline-block" }}> {comment.data.author}&#160;·&#160;</p><p className=" small text-muted "  style={{ display: "inline-block" }}> {convertTime(comment.data.created)} </p>
                     <p> {comment.data.body} </p>

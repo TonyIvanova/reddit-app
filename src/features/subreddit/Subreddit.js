@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSubredditAsync } from "./subredditSlice";
 import { convertTime, upsconverter } from "../../helperFunctions";
+import { PostLoading } from "../post/PostLoading";
 //styling 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Card, Container, Row, Col } from "react-bootstrap";
+
 
 export function Subreddit() {
   const dispatch = useDispatch();
@@ -22,7 +24,11 @@ export function Subreddit() {
   
 
   if (status === "loading") {
-    return <>loading...</>;
+    return <>
+    <PostLoading />
+    <PostLoading />
+    <PostLoading />
+    </>;
   } else if (status === "succeeded") {
     let subredditPosts = subredditData.data.children;
     
