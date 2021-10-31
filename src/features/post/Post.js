@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchPostAsync } from "./postSlice";
 import { store } from "../../app/store";
 import { convertTime, upsconverter } from "../../helperFunctions";
@@ -8,12 +8,20 @@ import { convertTime, upsconverter } from "../../helperFunctions";
 import { Card, Container, Row, Col, Placeholder } from "react-bootstrap";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import {PostLoading} from './PostLoading'; 
+// routing 
+import {useLocation} from 'react-router-dom'; 
 
 export function Post() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.post.status);
   const postData = useSelector((state) => state.post.postData);
-  const permalink = useSelector((state) => state.post.permalink);
+
+
+  //const permalink = useSelector((state) => state.post.permalink);
+let location = useLocation(); 
+
+let permalink = location.pathname;
+
 
   useEffect(() => {
     dispatch(fetchPostAsync(permalink));
@@ -22,16 +30,32 @@ export function Post() {
   if (status === "loading") {
     return <><PostLoading /></>;
   } else if (status === "succeeded") {
-    let {
-      subreddit,
-      title,
-      ups,
-      author_fullname,
-      created,
-      post_hint,
-      selftext,
-      url_overridden_by_dest,
-    } = postData[0].data.children[0].data;
+
+    let subreddit,
+    title,
+    ups,
+    author_fullname,
+    created,
+    post_hint,
+    selftext,
+    url_overridden_by_dest;
+
+  
+
+   try {
+    let postDataResponse = postData[0].data.children[0].data;
+    subreddit = postDataResponse.subreddit;
+    title = postDataResponse.title;
+    ups = postDataResponse.ups;
+    author_fullname = postDataResponse.author_fullname;
+    created = postDataResponse.created;
+    post_hint = postDataResponse.post_hint;
+    selftext = postDataResponse.selftext;
+    url_overridden_by_dest = postDataResponse.url_overridden_by_dest; 
+   } catch {
+
+   }
+
     let video;
 
     // we need this block to prevent error in case of json path for video undefined.
@@ -52,12 +76,17 @@ export function Post() {
     }
 
     // 1.data.children[0].data.body
-    let commentsData = postData[1].data.children;
-    const timeCreated = convertTime(created);
-
+    let commentsData=[]; 
+    let timeCreated;
+    try{
+    commentsData = postData[1].data.children;
+    timeCreated = convertTime(created);
+    } catch {
+      timeCreated=0; 
+    }
     return (
       <>
-        <Container className="container-xs py-3" style={{ maxWidth: "600px" }}>
+        <Container className="container-xs py-3" style={{ maxWidth: "700px" }}>
           <Row>
             <Col className="col-2 text-center ">
               <FaChevronUp style={{ color: "blue" }} />
@@ -113,6 +142,8 @@ export function Post() {
                       frameborder="0"
                       allow="autoplay"
                       className="w-75 "
+                      style={{ height: "100%", width: "100%" }}
+                      
                     />
                   )}
                   {video && (
@@ -162,6 +193,7 @@ export function Post() {
         </Container>
       </>
     );
+    
   } else if (status === "failed") {
     return <>Error :/</>;
   }

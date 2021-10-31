@@ -5,14 +5,23 @@ import { Subreddit } from './features/subreddit/Subreddit';
 
 import {SearchBar} from './features/search/SearchBar'; 
 import './custom.scss'; 
+import {BrowserRouter, Switch, Route} from 'react-router-dom'; 
 
 function App() {
 
   return (
+    <BrowserRouter>
     <div className="App">
-     
+     <Switch> 
+      <Route path='/' exact > 
       <Subreddit /> 
+      </Route>
+      <Route>
+        <Post path='/r/' />
+      </Route>
+      </Switch>
     </div>
+    </BrowserRouter>
   );
 }
 
