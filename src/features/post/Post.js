@@ -31,31 +31,16 @@ let permalink = location.pathname;
     return <><PostLoading /></>;
   } else if (status === "succeeded") {
 
-    let subreddit,
-    title,
-    ups,
-    author_fullname,
-    created,
-    post_hint,
-    selftext,
-    url_overridden_by_dest;
-
-  
-
-   try {
-    let postDataResponse = postData[0].data.children[0].data;
-    subreddit = postDataResponse.subreddit;
-    title = postDataResponse.title;
-    ups = postDataResponse.ups;
-    author_fullname = postDataResponse.author_fullname;
-    created = postDataResponse.created;
-    post_hint = postDataResponse.post_hint;
-    selftext = postDataResponse.selftext;
-    url_overridden_by_dest = postDataResponse.url_overridden_by_dest; 
-   } catch {
-
-   }
-
+    let {
+      subreddit,
+      title,
+      ups,
+      author_fullname,
+      created,
+      post_hint,
+      selftext,
+      url_overridden_by_dest
+    } = postData[0].data.children[0].data;
     let video;
 
     // we need this block to prevent error in case of json path for video undefined.
@@ -76,14 +61,9 @@ let permalink = location.pathname;
     }
 
     // 1.data.children[0].data.body
-    let commentsData=[]; 
-    let timeCreated;
-    try{
-    commentsData = postData[1].data.children;
-    timeCreated = convertTime(created);
-    } catch {
-      timeCreated=0; 
-    }
+    let commentsData = postData[1].data.children;
+    const timeCreated = convertTime(created);
+
     return (
       <>
         <Container className="container-xs py-3" style={{ maxWidth: "700px" }}>
