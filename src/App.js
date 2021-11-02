@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className="App">
-      <SearchBar />
+     <SearchBar />
      <Switch> 
      <Route path='/r/' component={Subreddit} /> 
        <Route path='/post/' component={Post} />

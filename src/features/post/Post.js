@@ -81,7 +81,7 @@ let permalink = link.split('/').splice(2).join('/');
                     <Row className="justify-content-start">
                       <Col>
                         <p
-                          className=" small "
+                          className=" small onHover"
                           style={{ display: "inline-block" }}
                           onClick={() => {history.push('/');
                           history.push(`r/${subreddit}`);

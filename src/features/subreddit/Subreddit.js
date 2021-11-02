@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { fetchSubredditAsync } from "./subredditSlice";
 import { convertTime, upsconverter } from "../../helperFunctions";
 import { PostLoading } from "../post/PostLoading";
+
 //styling
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Card, Container, Row, Col } from "react-bootstrap";
 //Router
-import { Link, useHistory, useLocation } from "react-router-dom";
+import {  useHistory, useLocation } from "react-router-dom";
 
 export function Subreddit() {
   //resux hook, used for routing   
@@ -18,9 +19,7 @@ export function Subreddit() {
   const status = useSelector((state) => state.subreddit.status);
   const subredditData = useSelector((state) => state.subreddit.subredditData);
   let subredditName = location.pathname;  
-  const subreddit_name_prefixed = useSelector(
-    (state) => state.subreddit.subreddit_name_prefixed
-  );
+
 
   useEffect(() => {
     dispatch(fetchSubredditAsync(subredditName));
@@ -29,6 +28,7 @@ export function Subreddit() {
   if (status === "loading") {
     return (
       <>
+      
         <PostLoading />
         <PostLoading />
         <PostLoading />
@@ -39,7 +39,8 @@ export function Subreddit() {
 
     return (
       <>
-      <h4 className='inline-block my-auto'>{subredditName === '/' ? 'r/all' : subredditName.substring(1)}</h4>
+    
+      
         {subredditPosts.map((post, index) => {
           let {
             title,
@@ -88,7 +89,7 @@ export function Subreddit() {
                           <Row className="justify-content-start">
                             <Col>
                               <p
-                                className=" small "
+                                className=" small onHover"
                                 style={{ display: "inline-block" }}
                                 onClick={() => {history.push('/');
                                  history.push(`r/${subreddit}`);
@@ -108,7 +109,8 @@ export function Subreddit() {
                           </Row>
                           <Row>
                             {/* TITLE */}
-                            <h4 onClick={() => {
+                            <h4 className='onHover'
+                            onClick={() => {
                               history.push('/');
                               history.push(`post${permalink}`); 
                               }}>
@@ -161,8 +163,10 @@ export function Subreddit() {
       </>
     );
   } else if (status === "failed") {
-    return <>Error :/</>;
+    
+    return <>
+    Error :/</>;
   }
 
-  return <h1>Error </h1>;
+  return <> <h1>Error </h1></>;
 }

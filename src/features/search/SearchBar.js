@@ -1,17 +1,16 @@
 import React from "react";
 // https://www.reddit.com/search/?q=blah%20blah
-import {useState} from 'react'; 
+
 //styling
 import {Navbar, Container, Form} from 'react-bootstrap';
 import logo from '../../logo.svg'; 
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import {Link} from 'react-router-dom'; 
 
 export function SearchBar() {
 
 let history = useHistory();
-let location = useLocation(); 
-let subredditName = location.pathname; 
+
 let search; 
 const handleChange = (e) => {
 search = `search/search.json?q=${e.target.value}`; 
@@ -40,7 +39,7 @@ const handleSubmit = (e) => {
      m-1 "
         alt="Reddit logo"
       /> </Link>
-      {subredditName}
+     
       <Form  onSubmit={handleSubmit}>
             
              <Form.Control  placeholder="Search" onChange={handleChange} />

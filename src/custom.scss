@@ -2,7 +2,10 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
 
-
+.onHover:hover {
+    color: orangered; 
+    cursor: pointer;
+}
 
 
 @import "~bootstrap/scss/bootstrap";
