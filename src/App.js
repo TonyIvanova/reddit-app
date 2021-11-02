@@ -1,6 +1,6 @@
 import React from 'react';
 import { Post } from './features/post/Post';
-
+import ScrollToTop from './ScrollToTop';
 import { Subreddit } from './features/subreddit/Subreddit'; 
 import {SearchResults} from './features/search/SearchResults';
 import {SearchBar} from './features/search/SearchBar'; 
@@ -12,6 +12,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className="App">
+    <ScrollToTop />
      <SearchBar />
      <Switch> 
      <Route path='/r/' component={Subreddit} /> 
