@@ -6,6 +6,7 @@ import {SearchResults} from './features/search/SearchResults';
 import {SearchBar} from './features/search/SearchBar'; 
 import './custom.scss'; 
 import {BrowserRouter, Switch, Route} from 'react-router-dom'; 
+import { Error } from './features/error/Error';
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
      <Route path='/r/' component={Subreddit} /> 
        <Route path='/post/' component={Post} />
        <Route path='/search/' component={SearchResults} /> 
-       <Route path='/' component={Subreddit} /> 
+       <Route path='/' exact component={Subreddit} /> 
+       <Route path='/' component={Error} /> 
       </Switch>
     </div>
     </BrowserRouter>

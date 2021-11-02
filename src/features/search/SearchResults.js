@@ -30,7 +30,7 @@ console.log(link);
   } else if (status === "succeeded") {
     const searchResults=searchData.data.children; 
   
-   
+    
     return <>
     <Container className="container-xs py-3"
                 style={{ maxWidth: "600px" }}>
@@ -47,10 +47,10 @@ console.log(link);
 
           const timeCreated = convertTime(created);
         return (
-      <Card className=" p-0 m-0">
+      <Card className=" p-0 m-3">
           <Card.Header>
           <p
-                                className=" small "
+                                className=" small onHover "
                                 style={{ display: "inline-block" }}
                                 onClick={() => {history.push('/');
                                  history.push(`r/${subreddit}`);
@@ -66,7 +66,7 @@ console.log(link);
                           style={{ display: "inline-block" }}
                         >
                           by {author_fullname} {timeCreated} </p>
-                          <h4 onClick={() => {
+                          <h4 className='onHover' onClick={() => {
                               history.push('/');
                               history.push(`post${permalink}`); 
                               }}>{title}</h4>
@@ -74,16 +74,17 @@ console.log(link);
           </Card>
       
     )} )}
+    
     </ Container>
      </>;
 } else if (status === "failed") {
-    return <>Errorrrr :/</>;
+    return <><Card>Unable to load data </Card></>;
 }
 
 
 return (
     <div className="post">
-      <h1>something went really wrong </h1>
+      
     </div>
   );
 }
