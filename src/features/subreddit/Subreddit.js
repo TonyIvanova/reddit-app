@@ -8,22 +8,23 @@ import { PostLoading } from "../post/PostLoading";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Card, Container, Row, Col } from "react-bootstrap";
 //Router
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 export function Subreddit() {
   //resux hook, used for routing   
   const history = useHistory();
-
+  let location = useLocation(); 
   const dispatch = useDispatch();
   const status = useSelector((state) => state.subreddit.status);
   const subredditData = useSelector((state) => state.subreddit.subredditData);
+  let subredditName = location.pathname;  
   const subreddit_name_prefixed = useSelector(
     (state) => state.subreddit.subreddit_name_prefixed
   );
 
   useEffect(() => {
-    dispatch(fetchSubredditAsync(subreddit_name_prefixed));
-  }, [subreddit_name_prefixed, dispatch]);
+    dispatch(fetchSubredditAsync(subredditName));
+  }, [subredditName, dispatch]);
 
   if (status === "loading") {
     return (
@@ -38,6 +39,7 @@ export function Subreddit() {
 
     return (
       <>
+      <h4 className='inline-block my-auto'>{subredditName === '/' ? 'r/all' : subredditName.substring(1)}</h4>
         {subredditPosts.map((post, index) => {
           let {
             title,
@@ -48,7 +50,8 @@ export function Subreddit() {
             url_overridden_by_dest,
             post_hint,
             selftext,
-            permalink 
+            permalink,
+            
           } = post.data;
           let embededVideo;
           try {
@@ -87,6 +90,9 @@ export function Subreddit() {
                               <p
                                 className=" small "
                                 style={{ display: "inline-block" }}
+                                onClick={() => {history.push('/');
+                                 history.push(`r/${subreddit}`);
+                                }}
                               >
                                 {" "}
                                 r\{subreddit}&#160;·&#160;
@@ -102,7 +108,10 @@ export function Subreddit() {
                           </Row>
                           <Row>
                             {/* TITLE */}
-                            <h4 onClick={() => history.push(permalink)}>
+                            <h4 onClick={() => {
+                              history.push('/');
+                              history.push(`post${permalink}`); 
+                              }}>
                               {" "}
                               {title}{" "}
                             </h4>

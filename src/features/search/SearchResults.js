@@ -9,14 +9,14 @@ import { Card, Container, Row, Col, Placeholder } from "react-bootstrap";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import {PostLoading} from '../post/PostLoading'; 
 // routing 
-import {useLocation} from 'react-router-dom'; 
+import {useLocation, useHistory } from 'react-router-dom'; 
 
 export function SearchResults() {
     const dispatch = useDispatch();
     const status = useSelector((state) => state.search.status);
     const searchData = useSelector((state) => state.search.searchData);
 
-
+let history = useHistory(); 
 let location = useLocation(); 
 let link = location.search;
 console.log(link); 
@@ -35,12 +35,41 @@ console.log(link);
     <Container className="container-xs py-3"
                 style={{ maxWidth: "600px" }}>
     {searchResults.map((item)=>{
-        let title= item.data.title; 
+        let {
+            subreddit,
+            title,
+            ups,
+            author_fullname,
+            created,
+            url_overridden_by_dest,
+            permalink
+          }= item.data; 
+
+          const timeCreated = convertTime(created);
         return (
       <Card className=" p-0 m-0">
           <Card.Header>
-  
-          {title}
+          <p
+                                className=" small "
+                                style={{ display: "inline-block" }}
+                                onClick={() => {history.push('/');
+                                 history.push(`r/${subreddit}`);
+                                }}
+                              >
+                          {" "}
+                          r\{subreddit}&#160;·&#160;
+                        </p>
+                        
+    
+                        <p
+                          className="text-muted small "
+                          style={{ display: "inline-block" }}
+                        >
+                          by {author_fullname} {timeCreated} </p>
+                          <h4 onClick={() => {
+                              history.push('/');
+                              history.push(`post${permalink}`); 
+                              }}>{title}</h4>
          </Card.Header>
           </Card>
       

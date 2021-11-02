@@ -9,19 +9,19 @@ import { Card, Container, Row, Col, Placeholder } from "react-bootstrap";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import {PostLoading} from './PostLoading'; 
 // routing 
-import {useLocation} from 'react-router-dom'; 
+import {useLocation, useHistory} from 'react-router-dom'; 
 
 export function Post() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.post.status);
   const postData = useSelector((state) => state.post.postData);
-
+  const history = useHistory(); 
 
   //const permalink = useSelector((state) => state.post.permalink);
 let location = useLocation(); 
 
-let permalink = location.pathname;
-
+let link = location.pathname;
+let permalink = link.split('/').splice(2).join('/'); 
 
   useEffect(() => {
     dispatch(fetchPostAsync(permalink));
@@ -83,6 +83,9 @@ let permalink = location.pathname;
                         <p
                           className=" small "
                           style={{ display: "inline-block" }}
+                          onClick={() => {history.push('/');
+                          history.push(`r/${subreddit}`);
+                         }}
                         >
                           {" "}
                           r\{subreddit}&#160;·&#160;

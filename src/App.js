@@ -14,10 +14,10 @@ function App() {
     <div className="App">
       <SearchBar />
      <Switch> 
-       <Route path='/' exact component={Subreddit} /> 
-       <Route path='/r/' component={Post} />
-       <Route path='/' component={SearchResults} /> 
-    
+     <Route path='/r/' component={Subreddit} /> 
+       <Route path='/post/' component={Post} />
+       <Route path='/search/' component={SearchResults} /> 
+       <Route path='/' component={Subreddit} /> 
       </Switch>
     </div>
     </BrowserRouter>
