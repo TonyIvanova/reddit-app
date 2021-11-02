@@ -42,7 +42,7 @@ const handleSubmit = (e) => {
      
       <Form  onSubmit={handleSubmit}>
             
-             <Form.Control  placeholder="Search" onChange={handleChange} />
+             <Form.Control  placeholder="Search" onChange={handleChange} className='searchBar' />
        </Form>     
         </Container>
         

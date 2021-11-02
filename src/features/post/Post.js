@@ -68,7 +68,7 @@ let permalink = link.split('/').splice(2).join('/');
       <>
         <Container className="container-xs py-3" style={{ maxWidth: "700px" }}>
           <Row>
-            <Col className="col-2 text-center ">
+            <Col className="col-2 text-center text-responsive">
               <FaChevronUp style={{ color: "blue" }} />
               <h2>{upsconverter(ups)}</h2>
               <FaChevronDown style={{ color: "blue" }} />
